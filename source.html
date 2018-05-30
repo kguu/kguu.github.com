@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head><style type="text/css">.lw { font-size: 60px; }
+body{background-color: #A0AAE0;}
+
+.button1{
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  width: 200px;
+  height: 45px;
+  margin-top: 40px;
+}
+.word{
+  font-size: 120%;
+  font-weight: bold;
+}
+.inner{
+  -webkit-box-shadow: -1px -1px 1px #898989;
+  -moz-box-shadow: -1px -1px 1px #898989;
+  box-shadow: -1px -1px 1px #898989;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 1px #EEEEEE;
+  font-size: 200%;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  background-color: #4a5995;
+  margin: -4px;
+}
+
+.j_num{
+  margin-top: 15%;
+  display:inline-block;
+  font-weight: bold;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  font-size: 200%;
+  color:#FFFFFF;
+  background-color: #000000;
+  padding: 1px 5px 3px;
+}
+/* .facebook{
+  -webkit-border-radius: 11px;
+  -moz-border-radius: 11px;
+  border-radius: 11px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 570%;
+  color: white;
+  width:100px; height:100px;
+  background-color:#4a5995;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20%;
+  } */</style>
+
+
+<title>HTML, CSS and JavaScript demo</title>
+
+</head>
+<body>
+  
+    <center>
+      <div id="j_num" class="j_num">
+              <div id="i_num">0</div>
+      </div>
+
+      <div id="word" class="word">
+        times StampIt!!
+      </div>
+    </center>
+    <center>
+      <button id="button1" class="button1" onclick="button1_click('Facebook');">
+        <div class="inner">Stamp It</div>
+      </button>
+    </center>
+
+<!-- Start your code here -->
+  
+  <!-- <div class="facebook"><p>f</p></div> -->
+
+<!-- End your code here -->
+  
+
+<script>//클릭 횟수 
+var num=0;
+  document.getElementById("i_num").innerHTML=num;
+function button1_click(s) {
+	alert( s + " 스탬프");
+  num+=1;
+  console.log(num);
+ var y = document.getElementById("j_num");
+  var w = document.getElementById("word");
+  var x = document.getElementById("button1");
+  if((num%10)===0){
+
+      document.getElementById("i_num").innerHTML=+num;
+
+      y.style.fontSize = "500%";
+      w.style.display = "none";
+      x.style.marginTop = "3px";
+    
+  }
+  else{
+  document.getElementById("i_num").innerHTML=num;
+          y.style.fontSize = "200%";
+          w.style.display = "block";
+          x.style.marginTop = "40px";
+  }
+
+    if(num==100)
+    num = 0;
+}
+
+</script></body>
