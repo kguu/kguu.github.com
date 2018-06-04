@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head><style type="text/css">
+body{background-color: #A0CCDD;
+   width:80%;
+    height: 80%;
+    font-size: 18px;
+  margin-left: 10%
+  }
+
+.dv1{
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+-webkit-box-shadow: 3px 3px 0px #AAAAAA;
+
+-moz-box-shadow: 3px 3px 0px #AAAAAA;
+
+box-shadow: 3px 3px 0px #AAAAAA;
+color: #EEEEEE;
+   background-color: #222222;
+  padding: 20px;
+  padding-left: 5%;
+}
+a{
+  color: #00AAEE;
+  text-decoration: none;
+}
+
+</style>
+
+
+<title>HTML, CSS and JavaScript demo</title>
+
+</head>
+<body>
+  
+    <div class="dv1">
+      <pre>#include "SoftwareSerial.h"
+#include <a href="https://github.com/neosarchizo/MagicRC/blob/master/MagicRC.h">"MagicRC.h"</a>
+#include "Servo.h"
+#include <a href="https://gist.github.com/mikeputnam/2820675">"pitches.h"</a>
+#include <a href="https://github.com/WickedDevice/SoftReset/blob/master/SoftReset.h">"SoftReset.h"</a>
+
+MagicRC myRC(8, 9, 3, 4, 5, 6); // Bluetooth TX, RX
+SoftwareSerial btSerial(8,9);
+Servo xServo, yServo;
+int x=65,y=45;
+int led = 13;
+int lazor = 12;
+int yled2 = 2;
+int ring = 7;
+float a=0.1;
+void setup() {
+    
+  xServo.attach(10);
+  yServo.attach(11);
+  pinMode(lazor, OUTPUT);
+  pinMode(led, OUTPUT);
+
+  pinMode(yled2,OUTPUT);
+
+  myRC.begin(9600); // Bluetooth baudrate
+  btSerial.begin(9600);
+  xServo.write(x);
+  yServo.write(y);
+  digitalWrite(yled2, LOW);
+  digitalWrite(led,LOW);
+}
+
+void loop() {
+
+  if (btSerial.available()) {
+     char c = btSerial.read();
+     Serial.write(c);
+    switch (c) {
+      case 'F':
+        myRC.forward();
+        break;
+      case 'B':
+        myRC.backward();
+        digitalWrite(led,HIGH);
+        break;
+      case 'L':
+        myRC.turnLeft();
+        break;
+      case 'R':
+        myRC.turnRight();
+        break;
+      case 'S':
+        myRC.stop();
+        digitalWrite(led,LOW);
+        break;
+      case 'K':
+        digitalWrite(lazor, 1);
+      break;
+      case 'J':
+        digitalWrite(lazor, 0);
+      break;
+
+      case 'W':
+      while(btSerial.read()!='S'){
+        yServo.write(y);
+        if(y&lt;130)
+          y=y+a;
+        a=a+0.1;
+        delay(15);
+      }
+      a=0.1;
+      break;
+      case 'X':
+      while(btSerial.read()!='S'){
+        yServo.write(y);
+        if(y&gt;0)
+          y=y-a;
+       a=a+0.1;
+        delay(15);
+        
+      }
+      a=0.1;
+      break;
+      case 'A':
+      while(btSerial.read()!='S'){
+        xServo.write(x);
+        if(x&lt;130)
+          x=x+a;
+                a=a+0.1;
+        delay(15);
+      }
+      a=0.1;
+      break;
+      case 'D':
+      while(btSerial.read()!='S'){
+        xServo.write(x);
+        if(x&gt;0)
+          x=x-a;
+        a=a+0.1;
+        delay(15);
+      }
+      a=0.1;
+      break;
+      case '0':
+        myRC.setSpeed(0);
+        tone(ring, NOTE_C1, 100);//미
+        delay (110);
+        
+        tone(ring, NOTE_C1, 100);//미
+        delay (110);
+       break;
+      case '1':
+        myRC.setSpeed(100);
+        tone(ring, NOTE_C2, 100);//미
+        delay (110);
+        tone(ring, NOTE_C2, 100);//미
+        delay (110);
+       break;
+             case '2':
+        myRC.setSpeed(150);
+        tone(ring, NOTE_C3, 100);//미
+        delay (110);
+        tone(ring, NOTE_C3, 100);//미
+        delay (110);
+       break;
+             case '3':
+        myRC.setSpeed(200);
+        tone(ring, NOTE_C4, 100);//미
+        delay (110);
+        tone(ring, NOTE_C4, 100);//미
+        delay (110);
+       break;
+             case '4':
+        myRC.setSpeed(255);
+        tone(ring, NOTE_C5, 100);//미
+        delay (110);
+        tone(ring, NOTE_C5, 100);//미
+        delay (110);
+       break;
+      case 'O':
+ 
+        digitalWrite(yled2, HIGH);
+      break;
+      case 'P':
+
+        digitalWrite(yled2, LOW);
+      break;
+
+      case 'U':
+      while(btSerial.read()!='S'){
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_G5, 400);//솔
+        delay (440);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_E5, 400);//미
+        delay (440);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_E5, 200);//미
+        delay (220);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_E5, 200);//미
+        delay (220);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_E5, 400);//미
+        delay (440);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_E5, 200);//미
+        delay (220);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_G5, 200);//솔
+        delay (220);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_E5, 200);//미
+        delay (220);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_C5, 200);//도
+        delay (220);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_E5, 200);//미
+        delay (220);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_G5, 100);//솔
+        delay (110);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_E5, 100);//미
+        delay (110);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_C5, 200);//도
+        delay (220);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_E5, 200);//미
+        delay (220);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_G5, 200);//솔
+        delay (220);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_E5, 200);//미
+        delay (220);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_E5, 400);//미
+        delay (440);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_C5, 200);//도
+        delay (220);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_C5, 100);//도
+        delay (110);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_C5, 100);//도
+        delay (110);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_C5, 1200);//도
+        delay (1320);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_G5, 200);//솔
+        delay (220);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_G5, 100);//솔
+        delay (110);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_E5, 100);//미
+        delay (110);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_C5, 200);//도
+        delay (220);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_E5, 200);//미
+        delay (220);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_C5, 100);//도
+        delay (110);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_E5, 100);//미
+        delay (110);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_C5, 100);//도
+        delay (110);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_E5, 100);//미
+        delay (110);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_G5, 1600);//솔
+        delay (1760);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_C5, 200);
+        delay (220);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_C5, 200);
+        delay (220);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_E5, 200);
+        delay (220);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_E5, 200);
+        delay (220);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_G5, 200);
+        delay (220);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_G5, 100);
+        delay (110);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_E5, 100);
+        delay (110);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_C5, 200);
+        delay (210);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_E5, 200);
+        delay (210);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_C5, 100);
+        delay (110);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_E5, 100);
+        delay (110);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_C5, 100);
+        delay (110);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_E5, 100);
+        delay (110);
+        if(btSerial.read()=='S')break;
+        tone(ring, NOTE_G5, 1200);
+        delay (1320);
+        
+        }
+      break;
+
+      case 'M':
+        soft_restart();
+      break;
+      case 'N':
+      while(btSerial.read()!='H'){
+           if(btSerial.read()=='H'){
+           digitalWrite(yled2, LOW);
+           digitalWrite(led, LOW);
+            digitalWrite(lazor, 0);
+            break;
+           }
+           digitalWrite(yled2, HIGH);
+           digitalWrite(led, HIGH);
+            digitalWrite(lazor, 1);
+            tone(ring, NOTE_E5, 10);
+           delay(300);
+           digitalWrite(yled2, LOW);
+           digitalWrite(led, LOW);
+           digitalWrite(lazor, 0);
+           tone(ring, NOTE_C5, 10);
+           delay(300);
+           if(btSerial.read()=='H'){
+            digitalWrite(yled2, LOW);
+           digitalWrite(led, LOW);
+           digitalWrite(lazor, 0);
+            break;
+           }
+           digitalWrite(yled2, HIGH);
+           digitalWrite(led, HIGH);
+           digitalWrite(lazor, 1  );
+            tone(ring, NOTE_B5, 10);
+           delay(300);
+           digitalWrite(yled2, LOW);
+           digitalWrite(led, LOW);
+            digitalWrite(lazor, 0);
+           tone(ring, NOTE_C5, 10);
+           delay(300);
+      }
+      break;
+    }
+  }
+}
+
+</pre>
+    </div>
+ 
+
+
+<script>//클릭 횟수 
+var num=0;
+  document.getElementById("i_num").innerHTML=num;
+function button1_click(s) {
+	alert( s + " 스탬프");
+  num+=1;
+  console.log(num);
+ var y = document.getElementById("j_num");
+  var w = document.getElementById("word");
+  var x = document.getElementById("button1");
+  if((num%10)===0){
+
+      document.getElementById("i_num").innerHTML=+num;
+
+      y.style.fontSize = "500%";
+      w.style.display = "none";
+      x.style.marginTop = "3px";
+    
+  }
+  else{
+  document.getElementById("i_num").innerHTML=num;
+          y.style.fontSize = "200%";
+          w.style.display = "block";
+          x.style.marginTop = "40px";
+  }
+
+    if(num==100)
+    num = 0;
+}
+
+</script></body>
