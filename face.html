@@ -2,7 +2,16 @@
   <html>
   <head>
   
-<script>
+
+ </head>
+  <body>
+    	<!-- login btn -->
+	<div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="true" data-auto-logout-link="true" data-use-continue-as="true"></div>
+
+	<!-- facebook -->
+	<div id="fb-root"></div>
+    
+    <script>
   window.fbAsyncInit = function() {
     FB.init({
       appId      : '{your-app-id}',
@@ -48,7 +57,5 @@ function checkLoginState() {
   });
 }
 </script>
- </head>
-  <body>
     </body>
   </html>
