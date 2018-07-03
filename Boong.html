@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head><style type="text/css"></style>
+
+
+<title>HTML, CSS and JavaScript demo</title>
+</head>
+<body>
+<!-- Start your code here -->
+
+<button id="Boong" onclick="startPeristentVibrate(10000,0)">Boong</button>
+  <br>
+  <br>
+<button id="Stop" onclick="stopVibrate()">Stop</button>
+    
+  
+<!-- End your code here -->
+
+<script>var vibrateInterval;
+
+// Starts vibration at passed in level
+function startVibrate(duration) {
+    navigator.vibrate(duration);
+}
+
+// Stops vibration
+function stopVibrate() {
+    // Clear interval and stop persistent vibrating
+    if(vibrateInterval) clearInterval(vibrateInterval);
+    navigator.vibrate(0);
+}
+
+// Start persistent vibration at given duration and interval
+// Assumes a number value is given
+function startPeristentVibrate(duration, interval) {
+    vibrateInterval = setInterval(function() {
+        startVibrate(duration);
+    }, interval);
+}</script></body>
